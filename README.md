@@ -1,6 +1,6 @@
 <img width="100%" src="https://capsule-render.vercel.app/api?type=waving&height=100&color=gradient&section=header&animation=fadeIn&fontAlignY=45"/>
 
-readme_content = """
+
 # Projeto IoT Geral
 
 Este repositório contém exemplos, tutoriais e projetos básicos para Internet das Coisas (IoT), incluindo:
