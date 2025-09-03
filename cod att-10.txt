@@ -1,0 +1,98 @@
+#include <Servo.h>  // Biblioteca para servo motor
+
+Servo acionamento;  // Objeto servo
+
+// Definição dos pinos dos LEDs
+const int led1 = 2;
+const int led2 = 3;
+const int led3 = 4;
+const int led4 = 5;
+
+void setup() {
+  Serial.begin(9600);
+  acionamento.attach(9);
+
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
+  pinMode(led3, OUTPUT);
+  pinMode(led4, OUTPUT);
+
+  Serial.println("Digite um comando (1 a 4) para mover o servo:");
+  Serial.println("1 - Mover de 0 a 90 graus");
+  Serial.println("2 - Mover de 0 a 180 graus");
+  Serial.println("3 - Mover de 180 a 90 graus");
+  Serial.println("4 - Mover de 90 a 0 graus");
+
+  // Testa LEDs acendendo todos por 2 segundos
+  digitalWrite(led1, HIGH);
+  digitalWrite(led2, HIGH);
+  digitalWrite(led3, HIGH);
+  digitalWrite(led4, HIGH);
+  delay(2000);
+  apagarTodosLEDs();
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    String entrada = Serial.readStringUntil('\n');
+    entrada.trim();
+    int comando = entrada.toInt();
+
+    apagarTodosLEDs();
+
+    switch (comando) {
+      case 1:
+        digitalWrite(led1, HIGH);
+        Serial.println("CASE 1: Servo de 0 a 90 graus");
+        for (int pos = 0; pos <= 90; pos++) {
+          acionamento.write(pos);
+          delay(15);
+        }
+        digitalWrite(led1, LOW);
+        break;
+
+      case 2:
+        digitalWrite(led2, HIGH);
+        Serial.println("CASE 2: Servo de 0 a 180 graus");
+        for (int pos = 0; pos <= 180; pos++) {
+          acionamento.write(pos);
+          delay(15);
+        }
+        digitalWrite(led2, LOW);
+        break;
+
+      case 3:
+        digitalWrite(led3, HIGH);
+        Serial.println("CASE 3: Servo de 180 a 90 graus");
+        for (int pos = 180; pos >= 90; pos--) {
+          acionamento.write(pos);
+          delay(15);
+        }
+        digitalWrite(led3, LOW);
+        break;
+
+      case 4:
+        digitalWrite(led4, HIGH);
+        Serial.println("CASE 4: Servo de 90 a 0 graus");
+        for (int pos = 90; pos >= 0; pos--) {
+          acionamento.write(pos);
+          delay(15);
+        }
+        digitalWrite(led4, LOW);
+        break;
+
+      default:
+        Serial.println("Comando inválido. Envie 1, 2, 3 ou 4.");
+        break;
+    }
+
+    Serial.println("Digite o próximo comando (1 a 4):");
+  }
+}
+
+void apagarTodosLEDs() {
+  digitalWrite(led1, LOW);
+  digitalWrite(led2, LOW);
+  digitalWrite(led3, LOW);
+  digitalWrite(led4, LOW);
+}
